@@ -9,7 +9,7 @@ Each Shopify implementation is unique to each site, so instead of providing a si
 
 # TL;DR
 For experienced programmers.
-1. Retrieve your APPROVE id from KWIPPED
+1. Retrieve your APPROVE <approve-widget></approve-widget> code snippet from KWIPPED
 2. Download the approve-plugin from the dist folder in GitHub
 3. Install the plugin into Shopify
 4. Add the contents of approve-plugin.liquid into a snippet names approve-plugin in your shopify theme editor
