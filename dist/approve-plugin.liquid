@@ -1,0 +1,61 @@
+{%- assign approve_button_style = 'box-sizing: border-box; overflow: visible; touch-action: manipulation; margin: 0; text-transform: none; -webkit-appearance: button; cursor: pointer; white-space: nowrap; font-weight: 400; line-height: 1.25; display: inline-block; padding: .75rem 1rem; user-select: none; transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; text-align: center; vertical-align: middle; border: 1px solid transparent; border-radius: .25rem; margin-bottom: 0!important; margin-right: auto!important; margin-left: auto!important; color: #fff; border-color: #1976d2 !important; background-color: #1A88C8 !important; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1),inset 0 1px 0 0 rgba(255,255,255,0.1); -webkit-tap-highlight-color: rgba(255,255,255,0); background:#287CB9!important; border-color:#16639B!important; color:#FFFFFF!important; font-family:"Arial"!important; font-weight:400!important; button-font-style:normal!important;display:none; ' -%}
+{%- if approve_loader -%}
+  <approve-widget approveid="eyJpdiI6IjMwQkM0akNBNHYzQk1nSFI5S1VwZGc9PSIsInZhbHVlIjoiVXNFWXl2SHpJdEs1KzJCcG8wNXZGdz09IiwibWFjIjoiOWRiM2YxOWQxNWRkZTdlYzUwYjVhZTQ5N2E0MWRjZDA5ZGMyYzBjNjc5ZjZlOWIzNDJjNGVhZDU3NmZjMjkxNiJ9" kwippedurl="https://www.kwipped.com" buttonstyle="3" theme="custom" themestyle='{"bgcolor":"#287CB9","header_font":{"fontFamily":"","fontWeight":"","fontStyle":""},"inner_bgcolor":"#B12286","button_bgcolor":"#287CB9","button_border_color":"#16639B","button_text_color":"#FFFFFF","button_font":{"fontFamily":"\"Arial\"","fontWeight":"400","fontStyle":"normal"},"maintext_font":{"fontFamily":"\"Arial\"","fontWeight":"400","fontStyle":"normal"}}' bgcolor="#287CB9" inner-bgcolor="#B12286" button-border-color="#16639B" button-font-family=""Arial"" button-font-weight="400" button-font-style="normal" maintext-font-family=""Arial"" maintext-font-weight="400" maintext-font-style="normal"></approve-widget>
+  <script type="text/javascript">
+      var approveOpt = {
+            buttonAmtThreshold: 2000,
+            cartAmtThreshold: 2000,
+            priceEleCart: "#CartSubtotal",
+            priceEleSingle: "#ProductPrice-product-template",
+            priceEleMulti: "",
+            parentEleSingle: ".product-single__info-wrapper",
+            parentEleMulti: ""
+          }
+  </script>
+  {{ "https://api.kwipped.com/approve/plugin/1.0/approve_plugin_loader.php" | script_tag }}
+  {{ "approve-plugin.js" | asset_url | script_tag }}
+{%- endif -%}
+
+{%- if approve_button -%}
+<style type="text/css">
+  .approve_button_holder {
+    z-index:999999999999999;
+    }
+  button.approve_button {
+    z-index:999999999999999; 
+    {{ approve_button_style }}
+    }
+</style>
+{%- endif -%}
+
+{%- if approve_button and approve_button == "single" or approve_button == "multi" -%}
+  <div class="approve_button_holder" style="z-index:999999999999999">
+    {%- if approve_model and approve_price -%}
+        {%- assign approve_price = approve_price | money_without_currency | remove: ',' -%}
+        <button approve-button class="approve_button approve_button_{{approve_button}}" model="{{ approve_model | url_encode }}" price="{{ approve_price | money_without_currency | remove: ','  }}" quantity="{%- if approve_qty -%}{{ approve_qty }}{%- else -%}1{%- endif -%}" type="{%- if approve_type -%}{{ approve_type }}{%- else -%}new_product{%- endif -%}" >Loading...</button>
+    {%- elsif approve_items -%}
+        <button approve-button class="approve_button approve_button_{{approve_button}}" items='{{ approve_items }}' >Loading...</button>  
+    {%- endif -%}
+  </div>
+{%- elsif approve_button and approve_button == "cart" -%}
+  {%- if approve_cart and cart_items != "" -%}
+    {%- assign cart_items = "[" -%}
+              {%- assign cart_index = 0 -%}
+              {%- assign approve_product_type = "new_product" -%}
+    {%- for item in approve_cart.items -%}
+                {%- assign product_tags = item.product.tags | join: '~~~' | downcase | split: '~~~' -%}
+                {%- assign approve_product_type = "new_product" -%}
+                {%- if product_tags contains 'used' -%}
+                    {%- assign approve_product_type = "used_product" -%}
+                {%- endif -%}
+                {%- capture cart_items -%}
+                    {{ cart_items }}{%- if cart_items != "[" -%},{%- endif -%}{ "cart_index": "{{ cart_index }}", "model":"{{item.title | url_encode }}", "price":{{ item.final_price | money_without_currency | remove: ',' }}, "quantity":{{ item.quantity }}, "type": "{{ approve_product_type }}" }
+                {%- endcapture -%}
+                {%- assign cart_index = cart_index | plus: 1 -%}
+              {%- endfor -%}
+    {%- assign cart_items = cart_items | append: "]" -%}
+    <div class="approve_button_holder" >
+        <button class="approve_button approve_button_cart" approve-button items='{{ cart_items }}' >Loading...</button>  
+    </div>
+  {%- endif -%}
+{%- endif -%}
