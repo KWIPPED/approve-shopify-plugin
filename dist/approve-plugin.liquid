@@ -1,6 +1,7 @@
 {%- assign approve_button_style = 'box-sizing: border-box; overflow: visible; touch-action: manipulation; margin: 0; text-transform: none; -webkit-appearance: button; cursor: pointer; white-space: nowrap; font-weight: 400; line-height: 1.25; display: inline-block; padding: .75rem 1rem; user-select: none; transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; text-align: center; vertical-align: middle; border: 1px solid transparent; border-radius: .25rem; margin-bottom: 0!important; margin-right: auto!important; margin-left: auto!important; color: #fff; border-color: #1976d2 !important; background-color: #1A88C8 !important; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1),inset 0 1px 0 0 rgba(255,255,255,0.1); -webkit-tap-highlight-color: rgba(255,255,255,0); background:#287CB9!important; border-color:#16639B!important; color:#FFFFFF!important; font-family:"Arial"!important; font-weight:400!important; button-font-style:normal!important;display:none; ' -%}
 {%- if approve_loader -%}
-  <approve-widget approveid="eyJpdiI6IjMwQkM0akNBNHYzQk1nSFI5S1VwZGc9PSIsInZhbHVlIjoiVXNFWXl2SHpJdEs1KzJCcG8wNXZGdz09IiwibWFjIjoiOWRiM2YxOWQxNWRkZTdlYzUwYjVhZTQ5N2E0MWRjZDA5ZGMyYzBjNjc5ZjZlOWIzNDJjNGVhZDU3NmZjMjkxNiJ9" kwippedurl="https://www.kwipped.com" buttonstyle="3" theme="custom" themestyle='{"bgcolor":"#287CB9","header_font":{"fontFamily":"","fontWeight":"","fontStyle":""},"inner_bgcolor":"#B12286","button_bgcolor":"#287CB9","button_border_color":"#16639B","button_text_color":"#FFFFFF","button_font":{"fontFamily":"\"Arial\"","fontWeight":"400","fontStyle":"normal"},"maintext_font":{"fontFamily":"\"Arial\"","fontWeight":"400","fontStyle":"normal"}}' bgcolor="#287CB9" inner-bgcolor="#B12286" button-border-color="#16639B" button-font-family=""Arial"" button-font-weight="400" button-font-style="normal" maintext-font-family=""Arial"" maintext-font-weight="400" maintext-font-style="normal"></approve-widget>
+  <!-- REPLACE <approve-widget></approve-widget> below with your actual approve-widget code -->
+  <approve-widget></approve-widget>
   <script type="text/javascript">
       var approveOpt = {
             buttonAmtThreshold: 2000,
@@ -14,6 +15,32 @@
   </script>
   {{ "https://api.kwipped.com/approve/plugin/1.0/approve_plugin_loader.php" | script_tag }}
   {{ "approve-plugin.js" | asset_url | script_tag }}
+
+  <script type="text/javascript">
+	// custom code goes here 
+	/* Example: 
+		var runCustomSnippet = function runCustomSnippet() {
+			if ($("[data-product-option]").length > 0) {
+				$("[data-product-option]").each(function () {
+					$(this).change(function (){ //
+						var ele = $(this);
+						setTimeout(function() {
+							window.approve_adjust_qty($("#product-quantity-select").val(), ele, -1, null, $(approve_opt.price_ele_single).html().replace(/[^\d\.]+/g,"")); 
+						}, 100);
+				
+					});
+				});
+			}
+		};
+		
+		var jqueryrunningcheck = function (run_callback) {
+			if (window.jQuery) { run_callback(); }
+			else { setTimeout(function() { jqueryrunningcheck(run_callback) }, 50); }
+		};
+		if (window.jQuery) { runCustomSnippet(); } 
+		else { setTimeout(function() { jqueryrunningcheck(runCustomSnippet); }, 50); }
+	*/
+  </script>
 {%- endif -%}
 
 {%- if approve_button -%}
