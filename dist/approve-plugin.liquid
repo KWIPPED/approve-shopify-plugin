@@ -1,4 +1,4 @@
-{%- assign approve_button_style = 'box-sizing: border-box; overflow: visible; touch-action: manipulation; margin: 0; text-transform: none; -webkit-appearance: button; cursor: pointer; white-space: nowrap; font-weight: 400; line-height: 1.25; display: inline-block; padding: .75rem 1rem; user-select: none; transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; text-align: center; vertical-align: middle; border: 1px solid transparent; border-radius: .25rem; margin-bottom: 0!important; margin-right: auto!important; margin-left: auto!important; color: #fff; border-color: #1976d2 !important; background-color: #1A88C8 !important; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1),inset 0 1px 0 0 rgba(255,255,255,0.1); -webkit-tap-highlight-color: rgba(255,255,255,0); background:#287CB9!important; border-color:#16639B!important; color:#FFFFFF!important; font-family:"Arial"!important; font-weight:400!important; button-font-style:normal!important;display:none; ' -%}
+{%- assign approve_button_style = 'INSERT your APPROVE button style here' -%}
 {%- if approve_loader -%}
   <!-- REPLACE <approve-widget></approve-widget> below with your actual approve-widget code -->
   <approve-widget></approve-widget>
@@ -51,6 +51,7 @@
   button.approve_button {
     z-index:999999999999999; 
     {{ approve_button_style }}
+	display:none;
     }
 </style>
 {%- endif -%}
