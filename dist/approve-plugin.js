@@ -1,7 +1,7 @@
 window.Approve = window.Approve || {};
 
 /* ================ APPROVE ================ */
-
+/* ================ Approve.Init ================ */
 Approve.Init = function () {
 	if ($(".approve_button").length > 0
 		&& ($("input[name='quantity']").length > 0
@@ -44,6 +44,7 @@ var button,
 	priceEle,
 	items;
 
+/* ================ Approve.ChangeQty ================ */
 Approve.ChangeQty = function ChangeQty(qty, ele, lineIndex) {
 	// lineIndex needs to be 0 based index based on number of matching buttons and index of the buttons
 	var qty = qty || null,
@@ -105,6 +106,8 @@ Approve.ChangeQty = function ChangeQty(qty, ele, lineIndex) {
 		}
 	}
 };
+
+/* ================ Approve.ChangePrice ================ */
 Approve.ChangePrice = function ChangePrice(price, ele, lineIndex) {
 	// lineIndex needs to be 0 based index based on number of matching buttons and index of the buttons
 	var ele = ele || null,
@@ -168,6 +171,8 @@ Approve.ChangePrice = function ChangePrice(price, ele, lineIndex) {
 		}
 	}
 };
+
+/* ================ Approve.ChangeModel ================ */
 Approve.ChangeModel = function ChangeModel(model, ele, lineIndex) {
 	// lineIndex needs to be 0 based index based on number of matching buttons and index of the buttons
 	var ele = ele || null,
@@ -215,6 +220,8 @@ Approve.ChangeModel = function ChangeModel(model, ele, lineIndex) {
 		}
 	}
 };
+
+/* ================ Approve.ChangeType ================ */
 Approve.ChangeType = function ChangeType(type, ele, lineIndex) {
 	// lineIndex needs to be 0 based index based on number of matching buttons and index of the buttons
 	var ele = ele || null,
@@ -263,6 +270,7 @@ Approve.ChangeType = function ChangeType(type, ele, lineIndex) {
 		}
 	}
 };
+
 var jqcheck = function (run_callback) {
 	if (window.jQuery) { run_callback(); }
 	else { setTimeout(function() { jqcheck(run_callback) }, 50); }
