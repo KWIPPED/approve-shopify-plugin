@@ -43,9 +43,247 @@ IF you would like to add a dynamic option for the "approve_type" you can do so l
 ```
 
 10. Done.
-<!--
+
 # Detailed Installation Instructions
 
+
+### STEP 1: Download the `approve-plugin.js` file
+
+Download the file <a href="https://github.com/KWIPPED/approve-shopify-plugin/tree/master/dist" target="_blank" >dist/approve-plugin.js</a> from our project on GitHub <larecipe-button target="_blank" tag="a" href="https://github.com/KWIPPED/approve-shopify-plugin" type="black" class="mx-2 px-4"><i class="fab fa-github"></i></larecipe-button>  and save it locally.
+
+To do so:
+	navigate to te dist folder, right click on the file `approve-plugin.js`
+
+
+<hr />
+
+
+### STEP 2: Install the `approve-plugin.js` file
+
+In the Shopify theme editor, go to the section named `Assets`. 
+
+Click on  `Add a new asset`
+
+
+
+<hr />
+
+
+### STEP 3: Add the contents of `approve-plugin.liquid` into Shopify
+GoTo: Online Store -> Themes
+In the active theme click on “Actions”  and select “Edit Code”
+
+When the code editor loads go to the “Snippets” folder 
+Create a new snippet file and name it “approve-plugin.liquid”
+
+Click on the newly created file to edit it. 
+
+Copy the contents of <a target="_blank" href="https://github.com/KWIPPED/approve-shopify-plugin/blob/master/dist/approve-plugin.liquid" >`approve-plugin.liquid`</a> from the dist folder in GitHub <larecipe-button target="_blank" tag="a" href="https://github.com/KWIPPED/approve-shopify-plugin" type="black" class="mx-2 px-4"><i class="fab fa-github"></i></larecipe-button> Or copy the code block below, and paste into the snippet you just created named `approve-plugin.liquid` in your shopify theme editor
+
+<div id="load_approve_plugin_liquid" class="load_file_content" data-highlightlang="html" data-url="https://raw.githubusercontent.com/KWIPPED/approve-shopify-plugin/master/dist/approve-plugin.liquid"></div>
+
+
+ <!-- <larecipe-button tag="a" href="shopify" type="blue" class="mx-2 px-4"><i class="fab fa-github"></i></larecipe-button> -->
+
+
+
+<hr />
+
+
+### STEP 4: Retrieve your APPROVE code snippet
+
+Retrieve your APPROVE `<approve-widget></approve-widget>` code snippet from KWIPPED
+
+1. Log into <a href="https://www.kwipped.com">KWIPPED</a> and go to `APPROVE Plugin Configurator` in `APPROVE > Settings`.
+
+2. Locate the section `Copy Plugin Code`
+
+3. In the box below the `Copy Plugin Code` header, select the entire section of code for `<approve-widget></approve-widget>` and copy it to your clipboard
+
+4. Paste your APPROVE code snippet inside the `Snippets/approve-plugin.liquid` file in your Shopify theme editor
+
+
+>{warning} IF you see in the browser console an error referencing `#/`, you will need to modify the `Assets/theme.js` 
+>
+> #### Go to: `Assets -> theme.js` 
+>
+> #### Search for: `$(window.location.hash)`
+>
+> #### Replace with: `$(window.location.hash.replace('#/', '#'))`
+
+
+
+<hr />
+
+
+### STEP 5: Retrieve your APPROVE button style snippet
+
+1. Log into <a href="https://www.kwipped.com">KWIPPED</a> and go to `APPROVE Plugin Configurator` in `APPROVE > Settings`.
+
+2. Locate the section `Copy Plugin Code`
+
+3. In the box below the `Copy Plugin Code` header, look for the APPROVE button code whih will look like `<approve-button `. Find and copy everything inside the ` style='' ` tag. Be sure to only coppy what is inside the quotes and do not copy the quotes themselves. select the entire section of code for `<approve-widget></approve-widget>` and copy it to your clipboard
+
+4. Paste your APPROVE code snippet inside the `Snippets/approve-plugin.liquid` file in your Shopify theme editor. Look for this `<!-- INSERT your APPROVE button style here -->` and completely replace it with your copied styles.
+
+
+
+<hr />
+
+
+### STEP 6: Edit the `approveOpt` settings as needed
+
+Set the appropriate jquery element tags needed
+Locate the following section in your `Sections/approve-plugin.liquid` file in the Shopify Theme Editor:
+
+```javascript
+var approveOpt = {
+	buttonAmtThreshold: 2000,
+	cartAmtThreshold: 2000,
+	priceEleCart: '#CartSubtotal',
+	priceEleSingle: '#ProductPrice-product-template',
+	parentEleSingle: '.product-single__info-wrapper',
+	priceEleMulti: '',
+	parentEleMulti: ''
+}
+```
+
+- `buttonAmtThreshold`: This should be set to the product price minimum to show the APPROVE finance button. 
+- `cartAmtThreshold`: This should be set to the product price minimum to show the APPROVE finance button. 
+- `priceEleCart`: Set to the cart subtotal jquery ID or class tag. 
+- `priceEleSingle`: Set to the price element jquery ID or class tag to retrieve the base price on a single APPROVE finance button product page. 
+- `parentEleSingle`: Set to the parent element jQuery class tag that contains the individual APPROVE finance button and quantity or other option elements for a page with a single APPROVE finance button. 
+- `priceEleMulti`: Set to the price element jquery class tag to retrieve the base price on a multiple APPROVE finance button product/catalog page. 
+- `parentEleMulti`: Set to the parent element jQuery class tag that contains the individual APPROVE finance button and quantity or other option elements for multiple APPROVE finance buttons. 
+
+
+
+<hr />
+
+
+### STEP 7: Place the APPROVE finance button code in the Shopify cart.
+
+Place the APPROVE finance button snippet code in the Shopify cart theme file `Sections/cart-template.liquid` where you want the APPROVE finance button to appear.
+
+```html
+{%- include "approve-plugin", approve_button: "cart", approve_cart: cart -%}
+```
+
+
+<hr />
+
+
+### STEP 8: Place the APPROVE finance button code in the Shopify product page(s).
+
+Place the APPROVE finance button code in the Shopify product page(s) `i.e. Sections/produc-template.liquid OR Sections/collections-template.liquid ` where you want the button to appear.
+
+The product price can appear in your theme in many different places. Using the default (at the time of writing) theme of “Debut” the sections and files below can be edited to show the approve button tied into the price. 
+
+```html
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: "new_product" -%} 
+```
+##### IF you would like to add a dynamic option for the `approve_type` you can do so like this: 
+
+```html
+{%- assign product_tags = product.tags | join: '~~~' | downcase | split: '~~~' -%}
+{%- assign approve_product_type = "new_product" -%}
+{%- if product_tags contains 'used' -%}
+	{%- assign approve_product_type = "used_product" -%}
+{%- endif -%}
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type -%} 
+```
+
+##### Example of places you can put the APPROVE finance button.
+
+- `Sections/collections.liquid`
+- `Sections/collection-template.liquid`
+- `Sections/product-recommendations.liquid`
+- `Sections/product-template.liquid`
+
+<hr />
+
+
+### STEP 9: Add a jquery or javascript trigger if needed.
+
+If your Shopify theme utilizes a script to change the quantity of the item, you will need to update the functions that update the quntity and add the following:
+
+```html
+<!-- to change quantity -->
+window.Approve.ChangeQty(qty, ele, index);
+<!-- to change price -->
+window.Approve.ChangePrice(price, ele, index);
+<!-- to change model -->
+window.Approve.ChangeModel(model, ele, index);
+<!-- to change type -->
+window.Approve.ChangeType(type, ele, index);
+```
+- `qty`: Set to the changed qty of the item
+- `price`: Set to the changed price of the item. Should be US formatted with no currency symbol or comma.
+- `model`: Set to the changed model of the item. This is what will be used as the name of the equipment.
+- `type`: Set to the changed type of the item. this should be one of the following valid values  `new_product`, `used_product`, `refurbished_product`, `service`, `fee`, `shipping`, `discount`. 
+
+- `ele`: Set to the jQuery element that is being triggered i.e. `$('.quantity')` OR the jQuery ID/class string i.e.  `'#ProductTotal'`
+
+- `index`: (optional) IF you are on a multi APPROVE finance button page or on a cart, this should be set to the 0 based index of the changed quantity element that is being triggered.
+
+If your Shopify theme does not utilize such a process and your input for any of the elements is exposed you can add the following (example only) to change the qty, model, price and type for the APPROVE finance button:
+
+```javascript
+var customSnippet = function customSnippet() {
+	if ($("input[name='quantity']").length > 0) {
+		$("input[name='quantity']").change(function () {
+			<!-- to change quantity -->
+			var qty = $(this).val(),
+				ele = $(this);
+			window.Approve.ChangeQty(qty, ele);
+		});
+	}
+	if ($("[data-product-option]").length > 0) {
+		$("[data-product-option]").each(function () {
+			var ele = $(this);
+			ele.change(function (){ //
+				var this_ele = $(this);
+				setTimeout(function() {
+					var price = $(this).closest(approveOpt.parentEleSingle).find(".ProductPrice").html().replace(/[^\d\.]+/g,""),
+						model = $(this).closest(approveOpt.parentEleSingle).find(".ProductName").val();
+					Approve.ChangePrice(price, this_ele);
+					Approve.ChangeModel(model, this_ele); 
+				}, 100);
+			});
+		});
+	}
+	if ($("[data-product-type]").length > 0) {
+		$("[data-product-type]").each(function () {
+			var ele = $(this);
+			ele.change(function (){ //
+				var this_ele = $(this);
+				setTimeout(function() {
+					var type = this_ele.val(),
+						price = $(this).closest(approveOpt.parentEleSingle).find(".ProductPrice").html().replace(/[^\d\.]+/g,""),
+						model = $(this).closest(approveOpt.parentEleSingle).find(".ProductName").val();
+					Approve.ChangeType(type, this_ele);
+					Approve.ChangePrice(price, this_ele);
+					Approve.ChangeModel(model, this_ele); 
+				}, 100);
+			});
+		});
+	}
+};
+// time out to verify that jQuery has been loaded
+var jQueryRunningCheck = function (runCallback) {
+	if (window.jQuery) { run_callback(); }
+	else { setTimeout(function() { jQueryRunningCheck(runCallback) }, 50); }
+};
+if (window.jQuery) { customSnippet(); } 
+else { setTimeout(function() { jQueryRunningCheck(customSnippet); }, 50); }
+
+```
+
+
+
+### STEP 10: Done.
+
+<!--
 ## 1. Retrieve your APPROVE id from KWIPPED
 In order to use the APPROVE woocommerce plugin you will need a subscription to the APPROVE lenger network at KWIPPED. For more information please visit www.kwipped.com
 1. Log into KWIPPED
