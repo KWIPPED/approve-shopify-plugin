@@ -103,7 +103,7 @@ Retrieve your APPROVE `<approve-widget></approve-widget>` code snippet from KWIP
 4. Paste your APPROVE code snippet inside the `Snippets/approve-plugin.liquid` file in your Shopify theme editor
 
 
->{warning} IF you see in the browser console an error referencing `#/`, you will need to modify the `Assets/theme.js` 
+> IF you see in the browser console an error referencing `#/`, you will need to modify the `Assets/theme.js` 
 >
 > #### Go to: `Assets -> theme.js` 
 >
