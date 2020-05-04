@@ -259,8 +259,8 @@ var customSnippet = function customSnippet() {
 				var this_ele = $(this);
 				setTimeout(function() {
 					var type = this_ele.val(),
-						price = $(this).closest(approveOpt.parentEleSingle).find(".ProductPrice").html().replace(/[^\d\.]+/g,""),
-						model = $(this).closest(approveOpt.parentEleSingle).find(".ProductName").val();
+					price = $(this).closest(approveOpt.parentEleSingle).find(".ProductPrice").html().replace(/[^\d\.]+/g,""),
+					model = $(this).closest(approveOpt.parentEleSingle).find(".ProductName").val();
 					Approve.ChangeType(type, this_ele);
 					Approve.ChangePrice(price, this_ele);
 					Approve.ChangeModel(model, this_ele); 
