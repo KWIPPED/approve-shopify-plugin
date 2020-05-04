@@ -245,7 +245,7 @@ var customSnippet = function customSnippet() {
 				var this_ele = $(this);
 				setTimeout(function() {
 					var price = $(this).closest(approveOpt.parentEleSingle).find(".ProductPrice").html().replace(/[^\d\.]+/g,""),
-						model = $(this).closest(approveOpt.parentEleSingle).find(".ProductName").val();
+					    model = $(this).closest(approveOpt.parentEleSingle).find(".ProductName").val();
 					Approve.ChangePrice(price, this_ele);
 					Approve.ChangeModel(model, this_ele); 
 				}, 100);
