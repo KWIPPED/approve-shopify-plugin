@@ -205,7 +205,7 @@ The product price can appear in your theme in many different places. Using the d
 
 ### STEP 9: Add a jquery or javascript trigger if needed.
 
-If your Shopify theme utilizes a script to change the quantity of the item, you will need to update the functions that update the quntity and add the following:
+If your Shopify theme utilizes a script to change the quantity of the item, you will need to update the functions that update the quantity and add the following:
 
 ```html
 <!-- to change quantity -->
