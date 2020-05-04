@@ -193,6 +193,15 @@ The product price can appear in your theme in many different places. Using the d
 {%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type -%} 
 ```
 
+> 
+> #### IN the code remember to replace the variables:
+> #### `product.title`, 
+> #### `product.price`, 
+> #### `product.quantity`, and 
+> #### `"new_type"` or `approve_product_type` 
+> #### with the correct variables for those data pieces. 
+
+
 ##### Example of places you can put the APPROVE finance button.
 
 - `Sections/collections.liquid`
