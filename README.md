@@ -234,7 +234,7 @@ var customSnippet = function customSnippet() {
 		$("input[name='quantity']").change(function () {
 			<!-- to change quantity -->
 			var qty = $(this).val(),
-				ele = $(this);
+			    ele = $(this);
 			window.Approve.ChangeQty(qty, ele);
 		});
 	}
