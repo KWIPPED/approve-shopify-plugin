@@ -1,68 +1,78 @@
-{%- assign approve_button_style = '<!-- INSERT your APPROVE button style here -->' -%}
+{%- assign approve_button_style = '' -%}
+{%- assign approve_button_class = '' -%}
+{%- assign approve_teaser_class = '' -%}
+{%- assign approve_teaser_style = '' -%}
 {%- if approve_loader -%}
-  <!-- REPLACE <approve-widget></approve-widget> below with your actual approve-widget code -->
   <approve-widget></approve-widget>
-  <script type="text/javascript">
-      var approveOpt = {
-            buttonAmtThreshold: 2000,
-            cartAmtThreshold: 2000,
-            priceEleCart: '#CartSubtotal',
-            priceEleSingle: '#ProductPrice-product-template',
-            parentEleSingle: '.product-single__info-wrapper',
-            priceEleMulti: '',
-            parentEleMulti: ''
-          }
+
+
+  <script type="text/javascript" language="javascript">
+      // Startup Variables
+      window.kwipped_approve = window.kwipped_approve || {};
+      // Set to KWIPPED URL
+      window.kwipped_approve.url = "https://www.kwipped.com";
+      // Set to your APPROVE id 
+      window.kwipped_approve.approve_id = "your+approve+id+goes+here";
+      // setup sh_app && config objects
+      window.kwipped_approve.sh_app = {};
+      window.kwipped_approve.sh_app.config = window.kwipped_approve.sh_app.config || {};
+
+      // the product_info_wrap is to be set to product view wrapping element that contians both the APPROVE finance button as well as the qty and price elements. 
+      window.kwipped_approve.sh_app.config.product_info_wrap = ".grid__item";
+      
+      // the cart_info_wrap is to be set to vart view wrapping element that contians both the APPROVE finance button as well as the qty and price elements. 
+      window.kwipped_approve.sh_app.config.cart_info_wrap = ".main-content";
+
+      // the simple_product_price_ele is to be set to the price element jquery ID or class tag to retrieve the base price on a single simple APPROVE finance button product page. 
+      window.kwipped_approve.sh_app.config.simple_product_price_ele = ".productView [data-product-price-without-tax]:first";
+
+        // the variable_product_price_ele is to be set to the price element jquery ID or class tag to retrieve the base price on a single variable APPROVE finance button product page. 
+      window.kwipped_approve.sh_app.config.variable_product_price_ele = ".productView [data-product-price-without-tax]:first";
+
+      // qty_ele Set to the quantity element jQuery class or ID tag that contains the qty increase/decrease selectors. 
+      window.kwipped_approve.sh_app.config.qty_ele = 'input[data-quantity-input]';
+
+      // qty_down_ele Set to quantity down click element jquery class tag to set the current quantity for the APPROVE finance button. 
+      window.kwipped_approve.sh_app.config.qty_down_ele = 'button[data-action="dec"]';
+
+      // qty_up_ele  Set to quantity up click element jquery class tag to set the current quantity for the APPROVE finance button.  
+      window.kwipped_approve.sh_app.config.qty_up_ele = 'button[data-action="inc"]';
+
   </script>
-  {{ "https://api.kwipped.com/approve/plugin/1.0/approve_plugin_loader.php" | script_tag }}
+
+
+  {{ "https://api.kwipped.com/approve/plugin/2.0/approve_plugin_loader.php" | script_tag }}
   {{ "approve-plugin.js" | asset_url | script_tag }}
-
-  <script type="text/javascript">
-	// custom code goes here 
-	/* Example: 
-		var runCustomSnippet = function runCustomSnippet() {
-			if ($("[data-product-option]").length > 0) {
-				$("[data-product-option]").each(function () {
-					$(this).change(function (){ //
-						var ele = $(this);
-						setTimeout(function() {
-							window.approve_adjust_qty($("#product-quantity-select").val(), ele, -1, null, $(approve_opt.price_ele_single).html().replace(/[^\d\.]+/g,"")); 
-						}, 100);
-				
-					});
-				});
-			}
-		};
-		
-		var jqueryrunningcheck = function (run_callback) {
-			if (window.jQuery) { run_callback(); }
-			else { setTimeout(function() { jqueryrunningcheck(run_callback) }, 50); }
-		};
-		if (window.jQuery) { runCustomSnippet(); } 
-		else { setTimeout(function() { jqueryrunningcheck(runCustomSnippet); }, 50); }
-	*/
-  </script>
 {%- endif -%}
 
-{%- if approve_button -%}
-<style type="text/css">
-  .approve_button_holder {
-    z-index:999999999999999;
-    }
-  button.approve_button {
-    z-index:999999999999999; 
-    {{ approve_button_style }}
-	display:none;
-    }
-</style>
-{%- endif -%}
+
 
 {%- if approve_button and approve_button == "single" or approve_button == "multi" -%}
   <div class="approve_button_holder" style="z-index:999999999999999">
     {%- if approve_model and approve_price -%}
         {%- assign approve_price = approve_price | money_without_currency | remove: ',' -%}
-        <button approve-button class="approve_button approve_button_{{approve_button}}" model="{{ approve_model | url_encode }}" price="{{ approve_price | money_without_currency | remove: ','  }}" quantity="{%- if approve_qty -%}{{ approve_qty }}{%- else -%}1{%- endif -%}" type="{%- if approve_type -%}{{ approve_type }}{%- else -%}new_product{%- endif -%}" >Loading...</button>
+        <button 
+          class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
+          style="{{approve_button_style}}" 
+          approve-function="embedded_app" 
+          approve-action="add_to_app" 
+          approve-model="{{ approve_model | url_encode }}" 
+          approve-price="{{ approve_price | money_without_currency | remove: ','  }}" 
+          approve-qty="{%- if approve_qty -%}{{ approve_qty }}{%- else -%}1{%- endif -%}" 
+          approve-item-type="{%- if approve_type -%}{{ approve_type }}{%- else -%}new_product{%- endif -%}" 
+        >
+          As low as $<span approve-function="teaser_rate" approve-total="{{ approve_price | money_without_currency | remove: ','  }}" class="{{approve_teaser_class}}" style="{{approve_teaser_style}}"></span>/mo. Click to Apply
+        </button>
     {%- elsif approve_items -%}
-        <button approve-button class="approve_button approve_button_{{approve_button}}" items='{{ approve_items }}' >Loading...</button>  
+        <button 
+          class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
+          style="{{approve_button_style}}" 
+          approve-function="embedded_app" 
+          approve-action="add_to_app" 
+          approve-items='{{ approve_items }}' 
+        >
+          As low as $<span approve-function="teaser_rate" approve-total="{{ approve_price | money_without_currency | remove: ','  }}" class="{{approve_teaser_class}}" style="{{approve_teaser_style}}"></span>/mo. Click to Apply
+        </button>  
     {%- endif -%}
   </div>
 {%- elsif approve_button and approve_button == "cart" -%}
@@ -82,8 +92,22 @@
                 {%- assign cart_index = cart_index | plus: 1 -%}
               {%- endfor -%}
     {%- assign cart_items = cart_items | append: "]" -%}
-    <div class="approve_button_holder" >
-        <button class="approve_button approve_button_cart" approve-button items='{{ cart_items }}' >Loading...</button>  
+    <div class="approve_button_holder"  style="z-index:999999999999999">
+        <button 
+          class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
+          style="{{approve_button_style}}" 
+          approve-function="embedded_app" 
+          approve-action="add_to_app" 
+          approve-items='{{ cart_items }}' 
+        >
+        As low as $<span approve-function="teaser_rate" approve-total="0.00" class="{{approve_teaser_class}}" style="{{approve_teaser_style}}"></span>/mo. Click to Apply
+        </button>
+      	<script>
+          var init_cart_price = function () {
+            var cart_price = "{{ cart.total_price | money_without_currency | remove: ','  }}";
+            $(".cart_teaser_rate").attr("approve-total", cart_price);
+          }
+      	</script>
     </div>
   {%- endif -%}
 {%- endif -%}
