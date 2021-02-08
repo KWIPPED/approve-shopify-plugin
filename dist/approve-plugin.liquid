@@ -2,6 +2,7 @@
 {%- assign approve_button_class = '' -%}
 {%- assign approve_teaser_class = '' -%}
 {%- assign approve_teaser_style = '' -%}
+{%- assign approve_hide = false -%}
 {%- if approve_loader -%}
   <approve-widget></approve-widget>
 
@@ -40,15 +41,15 @@
 
   </script>
 
-
-  {{ "https://api.kwipped.com/approve/plugin/2.0/approve_plugin_loader.php" | script_tag }}
+   {%- if approve_hide != false -%}<approve-hide />{%- endif -%}
+  {{ "https://api.kwipped.com/approve/plugin/3.0/approve_plugin_loader.php" | script_tag }}
   {{ "approve-plugin.js" | asset_url | script_tag }}
 {%- endif -%}
 
 
 
 {%- if approve_button and approve_button == "single" or approve_button == "multi" -%}
-  <div class="approve_button_holder" style="z-index:999999999999999">
+  <div class="approve_button_holder" style="z-index:999999999999999" {%- if approve_hide != false -%}approve-container {%- endif -%}>
     {%- if approve_model and approve_price -%}
         {%- assign approve_price = approve_price | money_without_currency | remove: ',' -%}
         <button 
@@ -75,39 +76,45 @@
         </button>  
     {%- endif -%}
   </div>
-{%- elsif approve_button and approve_button == "cart" -%}
-  {%- if approve_cart and cart_items != "" -%}
-    {%- assign cart_items = "[" -%}
-              {%- assign cart_index = 0 -%}
-              {%- assign approve_product_type = "new_product" -%}
-    {%- for item in approve_cart.items -%}
-                {%- assign product_tags = item.product.tags | join: '~~~' | downcase | split: '~~~' -%}
-                {%- assign approve_product_type = "new_product" -%}
-                {%- if product_tags contains 'used' -%}
-                    {%- assign approve_product_type = "used_product" -%}
-                {%- endif -%}
-                {%- capture cart_items -%}
-                    {{ cart_items }}{%- if cart_items != "[" -%},{%- endif -%}{ "cart_index": "{{ cart_index }}", "model":"{{item.title | url_encode }}", "price":{{ item.final_price | money_without_currency | remove: ',' }}, "quantity":{{ item.quantity }}, "type": "{{ approve_product_type }}" }
-                {%- endcapture -%}
-                {%- assign cart_index = cart_index | plus: 1 -%}
-              {%- endfor -%}
-    {%- assign cart_items = cart_items | append: "]" -%}
-    <div class="approve_button_holder"  style="z-index:999999999999999">
-        <button 
-          class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
-          style="{{approve_button_style}}" 
-          approve-function="embedded_app" 
-          approve-action="add_to_app" 
-          approve-items='{{ cart_items }}' 
-        >
-        As low as $<span approve-function="teaser_rate" approve-total="0.00" class="{{approve_teaser_class}}" style="{{approve_teaser_style}}"></span>/mo. Click to Apply
-        </button>
-      	<script>
-          var init_cart_price = function () {
-            var cart_price = "{{ cart.total_price | money_without_currency | remove: ','  }}";
-            $(".cart_teaser_rate").attr("approve-total", cart_price);
-          }
-      	</script>
-    </div>
+  {%- if approve_hide != false -%}
+    <approve-hide />
   {%- endif -%}
+{%- elsif approve_button and approve_button == "cart" -%}
+    {%- if approve_cart and cart_items != "" -%}
+        {%- assign cart_items = "[" -%}
+        {%- assign cart_index = 0 -%}
+        {%- assign approve_product_type = "new_product" -%}
+        {%- for item in approve_cart.items -%}
+            {%- assign product_tags = item.product.tags | join: '~~~' | downcase | split: '~~~' -%}
+            {%- assign approve_product_type = "new_product" -%}
+            {%- if product_tags contains 'used' -%}
+                {%- assign approve_product_type = "used_product" -%}
+            {%- endif -%}
+            {%- capture cart_items -%}
+                {{ cart_items }}{%- if cart_items != "[" -%},{%- endif -%}{ "cart_index": "{{ cart_index }}", "model":"{{item.title | url_encode }}", "price":{{ item.final_price | money_without_currency | remove: ',' }}, "quantity":{{ item.quantity }}, "type": "{{ approve_product_type }}" }
+            {%- endcapture -%}
+            {%- assign cart_index = cart_index | plus: 1 -%}
+        {%- endfor -%}
+        {%- assign cart_items = cart_items | append: "]" -%}
+        <div class="approve_button_holder"  style="z-index:999999999999999" {%- if approve_hide != false -%}approve-container {%- endif -%}>
+            <button 
+              class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
+              style="{{approve_button_style}}" 
+              approve-function="embedded_app" 
+              approve-action="add_to_app" 
+              approve-items='{{ cart_items }}' 
+            >
+            As low as $<span approve-function="teaser_rate" approve-total="0.00" class="{{approve_teaser_class}}" style="{{approve_teaser_style}}"></span>/mo. Click to Apply
+            </button>
+            <script>
+              var init_cart_price = function () {
+                var cart_price = "{{ cart.total_price | money_without_currency | remove: ','  }}";
+                $(".cart_teaser_rate").attr("approve-total", cart_price);
+              }
+            </script>
+        </div>
+        {%- if approve_hide != false -%}
+          <approve-hide />
+        {%- endif -%}
+    {%- endif -%}
 {%- endif -%}

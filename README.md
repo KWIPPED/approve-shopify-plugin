@@ -23,7 +23,7 @@ For experienced programmers.
 8. Place a button in the Shopify product page(s) where you want the APPROVE finance button to appear.
 
 ```html
-{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: "new_product" -%} 
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: "new_product", approve_hide: false -%} 
 ```
 IF you would like to add a dynamic option for the "approve_type" you can do so like this: 
 
@@ -33,7 +33,7 @@ IF you would like to add a dynamic option for the "approve_type" you can do so l
 {%- if product_tags contains 'used' -%}
 	{%- assign approve_product_type = "used_product" -%}
 {%- endif -%}
-{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type -%} 
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type, approve_hide: false -%} 
 ```
 
 9. Add a jquery or javascript trigger to change the qty, model, price and type for the finance button.
