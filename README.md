@@ -18,12 +18,12 @@ For experienced programmers.
 7. Place the following snippet in the Shopify cart where you want the APPROVE finance button to appear.
 
 ```html
-{%- include "approve-plugin", approve_button: "cart", approve_cart: cart, approve_hide: false -%}
+{%- include "approve-plugin", approve_button: "cart", approve_cart: cart, approve_container: false -%}
 ```
 8. Place a button in the Shopify product page(s) where you want the APPROVE finance button to appear.
 
 ```html
-{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: "new_product", approve_hide: false -%} 
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: "new_product", approve_container: false -%} 
 ```
 IF you would like to add a dynamic option for the "approve_type" you can do so like this: 
 
@@ -33,7 +33,7 @@ IF you would like to add a dynamic option for the "approve_type" you can do so l
 {%- if product_tags contains 'used' -%}
 	{%- assign approve_product_type = "used_product" -%}
 {%- endif -%}
-{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type, approve_hide: false -%} 
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type, approve_container: false -%} 
 ```
 
 9. Add a jquery or javascript trigger to change the qty, model, price and type for the finance button.
@@ -166,9 +166,13 @@ var approveOpt = {
 Place the APPROVE finance button snippet code in the Shopify cart theme file `Sections/cart-template.liquid` where you want the APPROVE finance button to appear.
 
 ```html
-{%- include "approve-plugin", approve_button: "cart", approve_cart: cart, approve_hide: false -%}
+{%- include "approve-plugin", approve_button: "cart", approve_cart: cart, approve_container: false -%}
 ```
+The value `approve_container` when set to `true` will allow you to hide all elements with the property `approve-container` simply by adding to your page the following code 
 
+```html
+{%- include 'approve-plugin', approve_hide: true -%}
+```
 
 <hr />
 
@@ -180,8 +184,15 @@ Place the APPROVE finance button code in the Shopify product page(s) `i.e. Secti
 The product price can appear in your theme in many different places. Using the default (at the time of writing) theme of “Debut” the sections and files below can be edited to show the approve button tied into the price. 
 
 ```html
-{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: "new_product", approve_hide: false -%} 
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: "new_product", approve_container: false -%} 
 ```
+
+The value `approve_container` when set to `true` will allow you to hide all elements with the property `approve-container` simply by adding to your page the following code 
+
+```html
+{%- include 'approve-plugin', approve_hide: true -%}
+```
+
 ##### IF you would like to add a dynamic option for the `approve_type` you can do so like this: 
 
 ```html
@@ -190,7 +201,7 @@ The product price can appear in your theme in many different places. Using the d
 {%- if product_tags contains 'used' -%}
 	{%- assign approve_product_type = "used_product" -%}
 {%- endif -%}
-{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type, approve_hide: false -%} 
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type, approve_container: false -%} 
 ```
 
 > 

@@ -2,7 +2,8 @@
 {%- assign approve_button_class = '' -%}
 {%- assign approve_teaser_class = '' -%}
 {%- assign approve_teaser_style = '' -%}
-{%- assign approve_hide = false -%}
+{%- assign approve_container = false -%}
+
 {%- if approve_loader -%}
   <approve-widget></approve-widget>
 
@@ -41,7 +42,6 @@
 
   </script>
 
-   {%- if approve_hide != false -%}<approve-hide />{%- endif -%}
   {{ "https://api.kwipped.com/approve/plugin/3.0/approve_plugin_loader.php" | script_tag }}
   {{ "approve-plugin.js" | asset_url | script_tag }}
 {%- endif -%}
@@ -49,7 +49,7 @@
 
 
 {%- if approve_button and approve_button == "single" or approve_button == "multi" -%}
-  <div class="approve_button_holder" style="z-index:999999999999999" {%- if approve_hide != false -%}approve-container {%- endif -%}>
+  <div class="approve_button_holder" style="z-index:999999999999999" {%- if approve_container != false -%}approve-container {%- endif -%}>
     {%- if approve_model and approve_price -%}
         {%- assign approve_price = approve_price | money_without_currency | remove: ',' -%}
         <button 
@@ -76,9 +76,6 @@
         </button>  
     {%- endif -%}
   </div>
-  {%- if approve_hide != false -%}
-    <approve-hide />
-  {%- endif -%}
 {%- elsif approve_button and approve_button == "cart" -%}
     {%- if approve_cart and cart_items != "" -%}
         {%- assign cart_items = "[" -%}
@@ -96,7 +93,7 @@
             {%- assign cart_index = cart_index | plus: 1 -%}
         {%- endfor -%}
         {%- assign cart_items = cart_items | append: "]" -%}
-        <div class="approve_button_holder"  style="z-index:999999999999999" {%- if approve_hide != false -%}approve-container {%- endif -%}>
+        <div class="approve_button_holder"  style="z-index:999999999999999" {%- if approve_container != false -%}approve-container {%- endif -%}>
             <button 
               class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
               style="{{approve_button_style}}" 
@@ -113,8 +110,9 @@
               }
             </script>
         </div>
-        {%- if approve_hide != false -%}
-          <approve-hide />
-        {%- endif -%}
     {%- endif -%}
+{%- endif -%}
+
+{%- if approve_hide and approve_hide != false -%}
+    <approve-hide />
 {%- endif -%}
