@@ -18,7 +18,7 @@ For experienced programmers.
 7. Place the following snippet in the Shopify cart where you want the APPROVE finance button to appear.
 
 ```html
-{%- include "approve-plugin", approve_button: "cart", approve_cart: cart -%}
+{%- include "approve-plugin", approve_button: "cart", approve_cart: cart, approve_hide: false -%}
 ```
 8. Place a button in the Shopify product page(s) where you want the APPROVE finance button to appear.
 
@@ -49,7 +49,7 @@ IF you would like to add a dynamic option for the "approve_type" you can do so l
 
 ### STEP 1: Download the `approve-plugin.js` file
 
-Download the file <a href="https://github.com/KWIPPED/approve-shopify-plugin/tree/master/dist" target="_blank" >dist/approve-plugin.js</a> from our project on GitHub <larecipe-button target="_blank" tag="a" href="https://github.com/KWIPPED/approve-shopify-plugin" type="black" class="mx-2 px-4"><i class="fab fa-github"></i></larecipe-button>  and save it locally.
+Download the file <a href="https://github.com/KWIPPED/approve-shopify-plugin/tree/master/dist" target="_blank" >dist/approve-plugin.js</a> from our project on GitHub <larecipe-button target="_blank" tag="a" href="https://github.com/KWIPPED/approve-shopify-plugin/tree/master" type="black" class="mx-2 px-4"><i class="fab fa-github"></i></larecipe-button>  and save it locally.
 
 To do so:
 	navigate to te dist folder, right click on the file `approve-plugin.js`
@@ -103,13 +103,13 @@ Retrieve your APPROVE `<approve-widget></approve-widget>` code snippet from KWIP
 4. Paste your APPROVE code snippet inside the `Snippets/approve-plugin.liquid` file in your Shopify theme editor
 
 
-> IF you see in the browser console an error referencing `#/`, you will need to modify the `Assets/theme.js` 
+<!-- > IF you see in the browser console an error referencing `#/`, you will need to modify the `Assets/theme.js` 
 >
 > #### Go to: `Assets -> theme.js` 
 >
 > #### Search for: `$(window.location.hash)`
 >
-> #### Replace with: `$(window.location.hash.replace('#/', '#'))`
+> #### Replace with: `$(window.location.hash.replace('#/', '#'))` -->
 
 
 
@@ -166,7 +166,7 @@ var approveOpt = {
 Place the APPROVE finance button snippet code in the Shopify cart theme file `Sections/cart-template.liquid` where you want the APPROVE finance button to appear.
 
 ```html
-{%- include "approve-plugin", approve_button: "cart", approve_cart: cart -%}
+{%- include "approve-plugin", approve_button: "cart", approve_cart: cart, approve_hide: false -%}
 ```
 
 
@@ -180,7 +180,7 @@ Place the APPROVE finance button code in the Shopify product page(s) `i.e. Secti
 The product price can appear in your theme in many different places. Using the default (at the time of writing) theme of “Debut” the sections and files below can be edited to show the approve button tied into the price. 
 
 ```html
-{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: "new_product" -%} 
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: "new_product", approve_hide: false -%} 
 ```
 ##### IF you would like to add a dynamic option for the `approve_type` you can do so like this: 
 
@@ -190,7 +190,7 @@ The product price can appear in your theme in many different places. Using the d
 {%- if product_tags contains 'used' -%}
 	{%- assign approve_product_type = "used_product" -%}
 {%- endif -%}
-{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type -%} 
+{%- include 'approve-plugin', approve_button: "single", approve_model: product.title, approve_price: product.price, approve_qty: product.quantity, approve_type: approve_product_type, approve_hide: false -%} 
 ```
 
 > 
