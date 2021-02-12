@@ -203,7 +203,20 @@
 			}
 		});
 	};
-	
+	/* ================ kwipped_approve.sh_app.activate_added_button ================ */
+	// this function is to be called when adding a button dynamically after the initialization loads
+    window.kwipped_approve.sh_app.activate_added_button = function (ele) {
+		// needs to be a jQuery element
+		if (!ele.hasClass("initialized")) {
+			var teaser_ele = ele.find("[approve-function='teaser_rate']");
+			var teaser_amount = teaser_ele.attr("approve-total");
+			window.kwipped_approve.ajax.get_teaser(teaser_ele[0], teaser_amount);
+			window.kwipped_approve.core.show_hide(ele[0]);
+			window.kwipped_approve.core.activate_show_hide(ele[0]);
+			ele.addClass("initialized");
+		}
+	};
+
 	/* ================ kwipped_approve.sh_app.approve_button_add_items ================ */
 	// this function will allow you to add or replace a full json object of items to a button that uses the attrib approve-items
 	window.kwipped_approve.sh_app.approve_button_add_items = function (ele, items) {
