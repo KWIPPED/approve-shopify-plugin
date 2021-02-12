@@ -207,6 +207,17 @@
 	// this function is to be called when adding a button dynamically after the initialization loads
     window.kwipped_approve.sh_app.activate_added_button = function (ele) {
 		// needs to be a jQuery element
+		/**
+		 * EXAMPLE: (new buttons added via ajax after page is loaded and initialized) 
+		 * // add to a script tag immediately after new buttons or simply initialize like below
+		 * if (window.jQuery && window.kwipped_approve && window.kwipped_approve.core) {
+		 *		setTimeout(function () {
+		 *			$("body").find(".approve_button").each(function () {
+		 *				window.kwipped_approve.sh_app.activate_added_button($(this));
+		 *			});
+		 *		}, 1000);
+		 *	}
+		 */
 		if (!ele.hasClass("initialized")) {
 			var teaser_ele = ele.find("[approve-function='teaser_rate']");
 			var teaser_amount = teaser_ele.attr("approve-total");
