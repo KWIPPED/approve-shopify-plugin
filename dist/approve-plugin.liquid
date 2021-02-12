@@ -54,7 +54,7 @@
         {%- assign approve_price = approve_price | money_without_currency | remove: ',' -%}
         <span 
           class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
-          style="{{approve_button_style}}" 
+          style="{{approve_button_style}} display:none;" 
           approve-function="embedded_app" 
           approve-action="add_to_app" 
           approve-model="{{ approve_model | url_encode }}" 
@@ -67,7 +67,7 @@
     {%- elsif approve_items -%}
         <span 
           class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
-          style="{{approve_button_style}}" 
+          style="{{approve_button_style}} display:none;" 
           approve-function="embedded_app" 
           approve-action="add_to_app" 
           approve-items='{{ approve_items }}' 
@@ -96,7 +96,7 @@
         <div class="approve_button_holder"  style="z-index:999999999999999" {%- if approve_container != false -%}approve-container {%- endif -%}>
             <span 
               class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
-              style="{{approve_button_style}}" 
+              style="{{approve_button_style}} display:none;" 
               approve-function="embedded_app" 
               approve-action="add_to_app" 
               approve-items='{{ cart_items }}' 
