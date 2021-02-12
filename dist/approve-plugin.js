@@ -86,8 +86,8 @@
 						approve_button_price_ele = approve_cart_button_parent_ele.find(config.simple_product_price_ele);
 				}
 				$("body").on("change", config.qty_ele, function () {
-				  console.log("CUR QTY => ", $(this).val());
-				  console.log("CUR LENGTH => ",product_approve_single_button.length); 
+				  // console.log("CUR QTY => ", $(this).val());
+				  // console.log("CUR LENGTH => ",product_approve_single_button.length); 
 				   cur_qty_count = $(this).val();
 				   if (product_approve_single_button.length == 1) {
 						// IF product_approve_single_button is on page, change qty to match

@@ -52,7 +52,7 @@
   <div class="approve_button_holder" style="z-index:999999999999999" {%- if approve_container != false -%}approve-container {%- endif -%}>
     {%- if approve_model and approve_price -%}
         {%- assign approve_price = approve_price | money_without_currency | remove: ',' -%}
-        <button 
+        <span 
           class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
           style="{{approve_button_style}}" 
           approve-function="embedded_app" 
@@ -63,9 +63,9 @@
           approve-item-type="{%- if approve_type -%}{{ approve_type }}{%- else -%}new_product{%- endif -%}" 
         >
           As low as $<span approve-function="teaser_rate" approve-total="{{ approve_price | money_without_currency | remove: ','  }}" class="{{approve_teaser_class}}" style="{{approve_teaser_style}}"></span>/mo. Click to Apply
-        </button>
+        </span>
     {%- elsif approve_items -%}
-        <button 
+        <span 
           class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
           style="{{approve_button_style}}" 
           approve-function="embedded_app" 
@@ -73,7 +73,7 @@
           approve-items='{{ approve_items }}' 
         >
           As low as $<span approve-function="teaser_rate" approve-total="{{ approve_price | money_without_currency | remove: ','  }}" class="{{approve_teaser_class}}" style="{{approve_teaser_style}}"></span>/mo. Click to Apply
-        </button>  
+        </span>  
     {%- endif -%}
   </div>
 {%- elsif approve_button and approve_button == "cart" -%}
@@ -94,7 +94,7 @@
         {%- endfor -%}
         {%- assign cart_items = cart_items | append: "]" -%}
         <div class="approve_button_holder"  style="z-index:999999999999999" {%- if approve_container != false -%}approve-container {%- endif -%}>
-            <button 
+            <span 
               class="approve_button approve_button_{{approve_button}} {{approve_button_class}}" 
               style="{{approve_button_style}}" 
               approve-function="embedded_app" 
@@ -102,7 +102,7 @@
               approve-items='{{ cart_items }}' 
             >
             As low as $<span approve-function="teaser_rate" approve-total="0.00" class="{{approve_teaser_class}}" style="{{approve_teaser_style}}"></span>/mo. Click to Apply
-            </button>
+            </span>
             <script>
               var init_cart_price = function () {
                 var cart_price = "{{ cart.total_price | money_without_currency | remove: ','  }}";
